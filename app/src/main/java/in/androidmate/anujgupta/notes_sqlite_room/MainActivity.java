@@ -1,5 +1,6 @@
 package in.androidmate.anujgupta.notes_sqlite_room;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +11,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import in.androidmate.anujgupta.notes_sqlite_room.adapters.NotesAdapter;
 import in.androidmate.anujgupta.notes_sqlite_room.database.DatabaseHandler;
 import in.androidmate.anujgupta.notes_sqlite_room.models.Note;
@@ -42,11 +44,18 @@ public class MainActivity extends AppCompatActivity {
         DatabaseHandler db = new DatabaseHandler(this);
 
         notesList = db.getAllNotes();
+        if(notesList.size() != 0){
+            adapter = new NotesAdapter(this,notesList);
+            rvNotes.setAdapter(adapter);
+        }
 
-        adapter = new NotesAdapter(this,notesList);
 
-        rvNotes.setAdapter(adapter);
+    }
 
+    @OnClick(R.id.fabAddNote)
+    public void addNote(){
+        Intent i = new Intent(MainActivity.this,AddNoteActivity.class);
+        startActivity(i);
     }
 
 }
